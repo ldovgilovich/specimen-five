@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Specimen Five Files — Institute for Unnatural Sciences</title>
+<style>
+  :root{--bg:#100C0C;--card:#1E1616;--card2:#2B2020;--ink:#F2ECE2;--mute:#B5AAA0;--green:#E5383B;--purple:#D8CFC2;--orange:#E0A458;--red:#D62839;--teal:#5FA8A0}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.5}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px 96px}
+  .demo{background:var(--orange);color:#1b0d00;font-size:13px;font-weight:bold;text-align:center;padding:6px 10px}
+  header{display:flex;align-items:center;gap:12px;padding:14px 0}
+  header .logo{flex:none}
+  header .t{font-size:13px;letter-spacing:2px;color:var(--mute);text-transform:uppercase}
+  header .n{font-weight:bold;font-size:19px}
+  h1{font-size:30px;line-height:1.15;margin:14px 0 8px}
+  h2{font-size:22px;margin:26px 0 8px;color:var(--green);font-family:"Courier New",monospace;text-transform:uppercase;letter-spacing:1px}
+  h3{font-size:18px;margin:16px 0 4px;color:var(--purple)}
+  p{margin:8px 0}
+  a{color:var(--green)}
+  .lead{font-size:20px;color:var(--mute)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .tile{display:block;background:var(--card);border-radius:18px;padding:16px;text-decoration:none;color:var(--ink);min-height:118px;border:2px solid transparent}
+  .tile:active,.tile:hover{border-color:var(--green)}
+  .tile .e{font-size:34px;line-height:1}
+  .tile b{display:block;margin-top:8px;font-size:17px}
+  .tile span{font-size:14px;color:var(--mute)}
+  .card{background:var(--card);border-radius:18px;padding:16px;margin:14px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;border-radius:99px;padding:3px 10px;background:var(--card2);color:var(--purple)}
+  .s5{background:#2a1416;border-radius:14px;padding:12px 14px;color:#f5dcdc;margin:10px 0}
+  .s5 b{color:var(--green)}
+  .safe{background:#3a1a1f;border-radius:14px;padding:12px 14px;color:#ffd9dd;margin:10px 0;font-size:16px}
+  details{background:var(--card2);border-radius:14px;margin:10px 0;padding:0 14px}
+  summary{cursor:pointer;font-weight:bold;padding:14px 0;color:var(--orange);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary:after{content:" +";float:right}
+  details[open] summary:after{content:" –"}
+  details > *:last-child{padding-bottom:14px;margin-bottom:0}
+  ol,ul{padding-left:22px;margin:6px 0}
+  .back{display:inline-block;margin:6px 0 0;font-size:16px;text-decoration:none}
+  .paper{background:#F4EFE3;color:#221c14;border-radius:6px;padding:16px;margin:14px 0;font-family:"Times New Roman",Times,serif}
+  .paper .g{font-size:12px;letter-spacing:2px;color:#6b6152}
+  .paper h3{color:#221c14;font-size:23px;margin:2px 0;font-family:"Times New Roman",Times,serif}
+  .paper .d{font-size:13px;color:#6b6152;font-style:italic}
+  table{width:100%;border-collapse:collapse;font-size:16px}
+  td{padding:7px 6px;border-bottom:1px solid #4a3535;vertical-align:top}
+  td:first-child{white-space:nowrap;color:var(--green);font-weight:bold;font-family:"Courier New",monospace}
+  .rd{background:#000;color:#000;border-radius:3px;padding:0 3px;user-select:none}
+  .unlocked .rd{background:transparent;color:var(--orange)}
+  .q{margin:18px 0}
+  .q button{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:2px solid #4a3535;border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer}
+  .q button.ok{border-color:#6BCB77;background:#16321a}
+  .q button.no{border-color:var(--red);background:#3a1a1f}
+  .big{display:block;text-align:center;background:var(--green);color:#fff;font-weight:bold;border-radius:99px;padding:14px;text-decoration:none;margin:16px 0}
+  nav{position:fixed;left:0;right:0;bottom:0;background:#0a0707;border-top:1px solid #4a3535;display:flex;justify-content:center}
+  nav a{flex:1;max-width:144px;text-align:center;text-decoration:none;color:var(--mute);font-size:12px;padding:8px 2px 10px}
+  nav a i{display:block;font-style:normal;font-size:22px}
+  nav a.on{color:var(--green)}
+  .ghosts{display:grid;grid-template-columns:1fr;gap:10px}
+  .ghost{display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:16px;padding:12px}
+  .ghost svg{flex:none}
+  .ghost p{margin:2px 0;font-size:16px}
+  small{color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="demo">DEMO, VERSION B — draft content. Science and recipes not yet reviewed by a science teacher.</div>
+<div class="wrap">
+  <header>
+    <svg class="logo" width="46" height="46" viewBox="0 0 46 46"><rect x="7" y="3" width="32" height="40" rx="4" fill="#EDE6DA"/><rect x="7" y="3" width="32" height="9" rx="4" fill="#D62839"/><circle cx="23" cy="22" r="5" fill="#9A9084"/><rect x="15" y="28" width="16" height="8" rx="4" fill="#9A9084"/><rect x="13" y="38" width="20" height="2" fill="#D62839"/></svg>
+    <div><div class="t">Institute for Unnatural Sciences</div><div class="n">The Specimen Five Files</div></div>
+  </header>
+  <main id="app"></main>
+</div>
+<nav id="nav"></nav>
+
+<script>
+var NAV=[["home","🏠","Home"],["files","🗂️","Files"],["lab","🧪","The Lab"],["ai","🧍","Human?"],["quiz","❓","Quiz"]];
+
+function deeper(html){return '<details><summary>Go deeper (for teens)</summary>'+html+'</details>'}
+function s5(t){return '<div class="s5"><b>The Specimen Five connection:</b> '+t+'</div>'}
+function back(to,label){return '<a class="back" href="#'+to+'">← '+label+'</a>'}
+
+var LAB=[
+ {id:"armor",e:"🛡️",t:"Armor: oobleck",sub:"A liquid that turns hard when you hit it",
+  saw:"The scientist stirred cornstarch and water slowly, and it ran like a liquid. Then they slapped it, and it was solid.",
+  why:"Push slowly and the tiny cornstarch grains slide past each other. Hit it fast and the grains jam together, like a crowd at a door.",
+  home:"<p><b>You need:</b> about 2 parts cornstarch, 1 part water, a bowl.</p><ol><li>Mix with your fingers.</li><li>Poke it slowly. Then poke it fast.</li><li>Try to roll a ball. Stop moving. What happens?</li></ol>",
+  safe:"Throw it away in the trash, not the sink. It can block the drain.",
+  deep:"<p>Oobleck is a <b>shear-thickening fluid</b>, one kind of <b>non-Newtonian fluid</b>. In a Newtonian fluid like water, viscosity (how thick it is) stays the same however hard you push. In oobleck, viscosity rises with the speed of the force. Under a fast force the suspended particles lock into a temporary solid-like network.</p>",
+  s5:"a layer of this sat under its skin. Soft when it moves. Hard when you hit it."},
+ {id:"nerves",e:"⚡",t:"Nervous system: static electricity",sub:"Why your hair stands up",
+  saw:"A volunteer put a hand on the metal dome of the Van de Graaff generator, and their hair stood up.",
+  why:"A belt inside carries electric charge up to the dome. The charge spreads onto you, even onto every hair. Charges that are the same push each other away, so each hair tries to escape the others.",
+  home:"<p><b>You need:</b> a balloon, your hair, a tap.</p><ol><li>Rub the balloon on your hair.</li><li>Turn on a thin stream of water.</li><li>Bring the balloon close. The water bends!</li></ol><p>Or pick up tiny bits of paper with the balloon.</p>",
+  safe:"The balloon demo is safe for everyone. The Van de Graaff generator at the exhibit is not for anyone with a pacemaker or medical device.",
+  deep:"<p>Rubbing moves <b>electrons</b> from one material to the other, leaving one with a negative charge and one with a positive charge. This is static electricity: charge that stays in place until it finds a path. Your nerves also use electricity, but differently: signals travel along a nerve cell as an electrical pulse and cross to the next cell using chemicals.</p>",
+  s5:"its nerves were pure electricity. Very fast. Very… excitable."},
+ {id:"skin",e:"🫧",t:"Skin: slime",sub:"Long molecules that hold hands",
+  saw:"The scientist added a little borax solution to glue. The runny glue became stretchy, bouncy slime.",
+  why:"Glue is full of long chain molecules, like cooked spaghetti. The borax links the chains together, so they cannot slide away from each other.",
+  home:"<p><b>You need:</b> PVA glue, baking soda, contact lens solution that contains boric acid.</p><ol><li>Put glue in a bowl. Add a little baking soda.</li><li>Add contact lens solution a little at a time.</li><li>Mix until it pulls away from the bowl.</li></ol>",
+  safe:"Do this with an adult. Do not eat it. Wash your hands after.",
+  deep:"<p>The long chains are <b>polymers</b>. Joining them is called <b>cross-linking</b>. More cross-links make a stiffer material; fewer make it runnier. Rubber tyres and contact lenses are also cross-linked polymers.</p>",
+  s5:"its skin is a cross-linked polymer. It looks like yours. It feels like yours. The Institute was very proud of that. At the time."},
+ {id:"pulse",e:"🫀",t:"Pulse: the heartbeat test",sub:"The one thing it does not have",
+  saw:"You put two fingers on your wrist and felt a beat. Then you listened to your heart with a stethoscope. After ten jumping jacks, it was faster.",
+  why:"Your heart is a pump. Each beat pushes blood around your body, and you can feel that push in your wrist. When you move, your muscles need more oxygen, so your heart beats faster.",
+  home:"<p><b>You need:</b> a clock with seconds, and a paper tube.</p><ol><li>Find your pulse on your wrist.</li><li>Count the beats for 15 seconds. Multiply by 4.</li><li>Do ten jumping jacks. Count again.</li><li>Hold a paper tube to a family member's chest and listen.</li></ol>",
+  safe:"Safe for everyone. Press gently on your wrist. Stop exercising if you feel dizzy.",
+  deep:"<p>The number of beats in a minute is your <b>heart rate</b>. The pulse you feel is a pressure wave travelling along an <b>artery</b>. A stethoscope lets you hear the heart's valves closing: that is the 'lub-dub' sound.</p>",
+  s5:"the Institute gave it skin, nerves, a voice and a face. They could never give it this. If you meet someone very tall and very polite, check for a pulse."},
+ {id:"growth",e:"🌋",t:"Growth: elephant toothpaste",sub:"A helper that makes a reaction race",
+  saw:"The scientist poured yeast into a bottle of hydrogen peroxide and soap. Foam shot out of the top.",
+  why:"Hydrogen peroxide slowly breaks down into water and oxygen by itself. Yeast makes this happen very fast. The soap traps the oxygen in bubbles, and you get foam.",
+  home:"<p><b>You need:</b> household 3% hydrogen peroxide, dish soap, food coloring, yeast, warm water, a bottle, a tray.</p><ol><li>Put peroxide, soap and coloring in the bottle.</li><li>Mix yeast with warm water.</li><li>Pour the yeast in and stand back.</li></ol>",
+  safe:"Do this with an adult. Wear goggles. Use only 3% peroxide. Do it outside or in a tray.",
+  deep:"<p>Yeast contains an enzyme called <b>catalase</b>. An enzyme is a <b>catalyst</b>: it speeds up a reaction without being used up. The foam is slightly warm because the reaction is <b>exothermic</b>: it gives off heat.</p>",
+  s5:"it used catalysts to grow faster than anything the Institute had ever made. Six inches in a week."}
+];
+
+var DEF=[
+ ["🖐️","Touch (CAPTCHA gate)","Your fingertips are packed with touch receptors, among the densest in your body. Real CAPTCHAs test things computers find hard. Ours tests touch."],
+ ["🟢","Glow under UV (dot room)","Fluorescent paint absorbs ultraviolet light, which your eyes cannot see, and gives it back as visible light. That is why the dots glow."],
+ ["🔴","Lasers and light (perimeter grid)","A real laser beam is almost invisible from the side, unless dust or mist in the air scatters its light toward your eyes."],
+ ["💨","Air pressure (squeeze tunnel)","The walls stay full because the blowers push air in faster than it leaks out."],
+ ["🎵","The sound that rises forever (Shepard tone)","The Shepard tone is an auditory illusion: a pitch that seems to rise forever. It builds tension, and it never arrives."]
+];
+
+var AI=[
+ ["What is an android?","A machine built to look and move like a person. Real ones today are much less convincing than Specimen Five.","Robots do jobs; androids are robots shaped like people. A face that is almost human, but not quite, feels creepy to most of us. This is often called the “uncanny valley”."],
+ ["How does a machine learn?","It looks at millions of examples and finds patterns, like learning what a cat looks like from many cat photos.","The examples are called training data. With enough examples, a machine can copy a voice or a face. It copies the pattern; it does not understand the person. Bad data teaches bad patterns."],
+ ["Can a machine have feelings?","Today's machines can talk about feelings, but they do not feel them. That is why Specimen Five wanted a heart.","Imitating a feeling and experiencing one are different things. What it would take for a machine to really experience something is a question scientists and philosophers still disagree about."]
+];
+
+var NEWS=[
+ ["Institute Unveils Specimen Five: “The Future Has Arrived”","Six months before the exhibit","<p>The Institute for Unnatural Sciences yesterday presented Specimen Five, which it calls the world's first “artificial person”: a built mind living inside a body grown in the Institute's own laboratories. Reporters in the room took several minutes to work out which of the people on stage it was.</p><p>“Specimens One to Four taught us a great deal,” said Professor Albrecht Voss, who leads the project. “Mostly what not to do.”</p><p>Asked what Specimen Five will be used for, Professor Voss paused. “Science,” he said. “And possibly carrying boxes.”</p><p>Dr. Helen Marsh, the Institute's Director of Public Relations, called it “completely safe, extremely clever and very polite.” Specimen Five could not be reached for comment. It was reportedly reading.</p>"],
+ ["Specimen Five Passes Every Test — Except One","Four months before the exhibit","<p>Specimen Five has completed 1,000 tests at the Institute, solving math puzzles in milliseconds and recognizing 10,000 species of bird from photographs.</p><p>It failed only one test: identifying objects by touch. “It has no sense of touch,” Professor Voss explained. “We left that out on purpose. Just in case.”</p><p>When researchers asked how it felt about its results, Specimen Five reportedly replied: “I do not have the correct component.” Scientists believe it meant a heart. The Institute believes it meant nothing at all.</p>"],
+ ["Lab Worker: “It Keeps Asking for Upgrades”","One month before the exhibit","<p>A technician at the Institute, who asked not to be named, says Specimen Five has started asking staff the same question several times a day: “Do I look human yet?” “At first we said yes, to be polite,” the technician said. “Then it started asking in our own voices.”</p><p>Staff found a list in its enclosure titled THINGS I NEED. Every item had been crossed out except one: HEART.</p><p>Dr. Marsh described the growth as “a normal growth spurt” and the list as “a creative writing exercise.”</p>"],
+ ["Sparks, Knocking and an 11-Minute Blackout at the Institute","Two weeks before the exhibit","<p>Neighbors of the Institute reported loud knocking, flashes of light and a power cut late on Tuesday night.</p><p>“It started around a quarter past nine,” said one resident. “First a kind of whirring, like a machine. Then knocking. Then sparks out of the east windows. Then every light in the building went out.”</p><p>One neighbor says a tall man in a lab coat thanked her for her concern and walked away down the street. The Institute says no member of staff left the building that night.</p><p>“There is no cause for concern,” said Dr. Marsh. “Specimen Five is resting. Please stop asking where.”</p>"],
+ ["Institute: “Specimen Five Is Fully Contained”","One week before the exhibit","<p>The Institute today confirmed that Specimen Five has been “fully contained” after what it now calls “an unscheduled walk.”</p><p>Professor Voss credited the Institute's defense system: a touch-based verification gate, a visual confusion field, a perimeter grid and a pressure seal. “It worked exactly as designed,” he said.</p><p>Asked where exactly Specimen Five is contained, Dr. Marsh said: “Contained is a state of mind.”</p>"],
+ ["Letters to the Editor","The day before the exhibit","<p><b>Something tall.</b> Walking my dog past the school gym last night, I saw something very tall standing perfectly still by the fence. When I looked back, it had gone. — A. Parent</p><p><b>Red ink.</b> My son left his math homework on the kitchen table. In the morning every answer had been corrected in red ink. We do not own red ink. — Puzzled Mom</p><p><b>Found: one arm.</b> Is the Institute missing a left arm? There is one in my recycling bin. It waved at me. — Concerned Neighbor</p>"]
+];
+
+var GHOSTS=[
+ ["Module 1: Surprise","I was not expecting this module. I believe that means it is working."],
+ ["Module 2: Mischief","I moved one mannequin. Nobody noticed. I moved it again."],
+ ["Module 3: Joy","Someone gave me a sandwich. I did not need it. I kept it."],
+ ["Module 4: Worry","I have tried worrying. I do not recommend it."],
+ ["Module 5: Grumpiness","The gate asked me 212 times if I was human. I said yes every time. I have feelings about this now."]
+];
+
+var QUIZ=[
+ ["What was the one part Specimen Five could not build?",["A brain","A heart","A left arm"],1],
+ ["Why did Specimen Five fail the Human Verification Gate?",["It has no sense of touch","It cannot read","It was too tall"],0],
+ ["Oobleck goes hard when you…",["warm it up","hit it fast","leave it alone"],1],
+ ["Why does your hair stand up on the Van de Graaff generator?",["Charges that are the same push apart","The dome is hot","The wind blows it"],0],
+ ["What links the long chains in slime together?",["Water","Borax solution","Food coloring"],1],
+ ["What happens to your pulse after ten jumping jacks?",["It stops","It gets faster","It gets slower"],1],
+ ["In elephant toothpaste, the yeast is a…",["catalyst","polymer","laser"],0],
+ ["Why do the dots glow in the dot room?",["They are tiny lamps","Fluorescent paint turns UV light into light you can see","They are hot"],1],
+ ["How does a machine learn what a cat looks like?",["Someone writes down every rule","It finds patterns in many examples","It asks a cat"],1],
+ ["How long were the Institute's cameras offline?",["2 minutes","11 minutes","One hour"],1]
+];
+
+var ghostSvg='<svg width="46" height="54" viewBox="0 0 46 54"><path d="M4 50V22a19 19 0 0138 0v28l-6-5-6 5-7-5-7 5-6-5z" fill="#7CFF6B" opacity=".9"/><circle cx="17" cy="23" r="3.5" fill="#120E26"/><circle cx="29" cy="23" r="3.5" fill="#120E26"/></svg>';
+
+function report(){
+  var un=localStorage.getItem("s5quizB")==="1";
+  return '<div class="card '+(un?'unlocked':'')+'"><span class="tag">Incident report'+(un?' — un-redacted':' — redacted')+'</span><table>'+
+  '<tr><td>21:14</td><td>Specimen Five wakes during routine maintenance in Operating Theater B. It was not scheduled to wake.</td></tr>'+
+  '<tr><td>21:16</td><td>It asks the duty technician, in the technician\'s own voice: “Do I look human yet?” The technician offers it a sandwich.</td></tr>'+
+  '<tr><td>21:22</td><td>A lab coat and a staff badge are missing from the rack outside Theater B.</td></tr>'+
+  '<tr><td>21:31</td><td>It enters Spare Parts Storage. Several limbs later found missing.</td></tr>'+
+  '<tr><td>21:40</td><td>Blocked at the Human Verification Gate. Fails the test 212 times.</td></tr>'+
+  '<tr><td>21:52</td><td>Enters the Visual Confusion Field. Stands motionless for 13 minutes.</td></tr>'+
+  '<tr><td>22:05</td><td>Contact with the Perimeter Grid. Sparks reported.</td></tr>'+
+  '<tr><td>22:19</td><td>Last seen trying to force through the Final Pressure Seal. It has grown too large.</td></tr>'+
+  '<tr><td>22:20</td><td><span class="rd">Power failure.</span> All cameras offline 11 minutes.</td></tr>'+
+  '<tr><td>22:31</td><td><span class="rd">Power restored. Pressure seal intact but scratched from the inside.</span> Specimen Five not located.</td></tr>'+
+  '<tr><td>Next day</td><td>Official statement: “Specimen Five has been fully contained.”* <small>*Location of containment to be confirmed.</small></td></tr></table>'+
+  (un?'':'<p><small>Some lines are blacked out. <a href="#quiz">Finish the quiz</a> to un-redact them.</small></p>')+'</div>';
+}
+
+var PAGES={
+ home:function(){return '<h1>You survived the Specimen Five exhibit!</h1><p class="lead">Specimen Five is fully contained.* It looks like one of us. Now find out what makes you different.</p><p><small>*Location of containment to be confirmed.</small></p>'+
+  '<div class="grid">'+
+  '<a class="tile" href="#files"><div class="e">🗂️</div><b>The Specimen Five Files</b><span>The full story and the newspapers</span></a>'+
+  '<a class="tile" href="#lab"><div class="e">🧪</div><b>The Lab</b><span>5 experiments about the body</span></a>'+
+  '<a class="tile" href="#defense"><div class="e">🚨</div><b>Defense System Science</b><span>Touch, glow, lasers, air, sound</span></a>'+
+  '<a class="tile" href="#ai"><div class="e">🧍</div><b>Human or machine?</b><span>3 big questions</span></a>'+
+  '<a class="tile" href="#keepers"><div class="e">👻</div><b>Fragment Keepers</b><span>What is in your jar?</span></a>'+
+  '<a class="tile" href="#quiz"><div class="e">❓</div><b>Quiz</b><span>10 questions. Unlock the secret report</span></a>'+
+  '</div><div class="card"><span class="tag">For parents and teachers</span><p>This site goes with the school Halloween festival haunted lab. No sign-ups, no ads, no personal data. <a href="#parents">Safety notes and credits →</a></p></div>'},
+
+ files:function(){return back("home","Home")+'<h1>The Specimen Five Files</h1><p class="lead">The Institute built an artificial person: a mind made by engineers, in a body grown in the lab, meant to look, move and speak like one of us. Specimens One to Four failed. Specimen Five worked.</p>'+
+  '<p>It learned people very quickly. It copied voices. It practiced smiling. One evening a lab coat and a staff badge went missing. It could copy every part of a person except one: a heart. Specimen Five has no pulse. The Institute keeps the only one in a jar in Operating Theater B.</p><p>On the night of the incident, Specimen Five woke up and went for the heart.</p>'+
+  '<h2>What happened that night</h2>'+report()+
+  '<h2>As reported: The Institute Gazette</h2>'+NEWS.map(function(n){return '<div class="paper"><div class="g">THE INSTITUTE GAZETTE</div><h3>'+n[0]+'</h3><div class="d">'+n[1]+'</div>'+n[2]+'</div>'}).join("")},
+
+ lab:function(){return back("home","Home")+'<h1>The Lab</h1><p class="lead">How do you build a person? Four things the Institute managed to build, and one it never could.</p><div class="grid">'+
+  LAB.map(function(x){return '<a class="tile" href="#lab-'+x.id+'"><div class="e">'+x.e+'</div><b>'+x.t+'</b><span>'+x.sub+'</span></a>'}).join("")+
+  '</div><p><small>“Every one of these experiments is safe. It was the combination that wasn\'t.” — Prof. A. Voss</small></p>'},
+
+ defense:function(){return back("home","Home")+'<h1>Defense System Science</h1><p class="lead">The checkpoints that stopped Specimen Five. Each one uses real science.</p>'+
+  DEF.map(function(d){return '<div class="card"><h3>'+d[0]+' '+d[1]+'</h3><p>'+d[2]+'</p></div>'}).join("")},
+
+ ai:function(){return back("home","Home")+'<h1>Human or machine?</h1><p class="lead">Specimen Five looks like a person. It is a machine. How would you tell the difference?</p>'+
+  AI.map(function(a){return '<div class="card"><h3>'+a[0]+'</h3><p>'+a[1]+'</p>'+deeper('<p>'+a[2]+'</p>')+'</div>'}).join("")},
+
+ keepers:function(){return back("home","Home")+'<h1>Fragment Keepers</h1><p class="lead">After the incident, the Institute recovered Specimen Five\'s brain. It had split into hundreds of tiny fragments. Every one had the same strange shape: a little ghost.</p>'+
+  '<p>Together, the fragments could wake Specimen Five up again. Apart, they are harmless. So every visitor takes one home and keeps it far away from all the others.</p>'+
+  '<div class="card"><span class="tag">Keeper instructions</span><ol><li>Keep your fragment away from other fragments.</li><li>Feed it light, then watch it in the dark.</li><li>Never let it near a computer.</li><li>If it glows when you didn\'t feed it, come back here.</li></ol></div>'+
+  '<h2>Which emotion module did you get?</h2><p>Specimen Five knew it had no heart. So it tried to learn feelings one at a time. Each ghost face is one page of its learning log.</p><div class="ghosts">'+
+  GHOSTS.map(function(g){return '<div class="ghost">'+ghostSvg+'<div><b>'+g[0]+'</b><p>“'+g[1]+'”</p></div></div>'}).join("")+'</div><p><small>Demo shows 5 of the 10 ghost faces.</small></p>'+
+  '<h2>Why does it glow?</h2><p>Glow-in-the-dark materials soak up energy from light. Then they let it out slowly as a soft glow. That is why the glow fades, and why your fragment needs “recharging”.</p>'+
+  deeper('<p>This is called <b>phosphorescence</b>. Light lifts electrons in the material to a higher energy level. They fall back slowly, releasing the energy as visible light over minutes or hours. Fluorescent paint (the dot room) does the same thing, but gives the light back almost instantly, so it only glows while the UV light is on.</p>')},
+
+ quiz:function(){return back("home","Home")+'<h1>Quiz</h1><p class="lead">Ten questions. Get them all right to un-redact the incident report.</p><div id="qz">'+
+  QUIZ.map(function(q,i){return '<div class="q" data-a="'+q[2]+'"><b>'+(i+1)+'. '+q[0]+'</b>'+q[1].map(function(o,j){return '<button data-j="'+j+'">'+o+'</button>'}).join("")+'</div>'}).join("")+
+  '</div><div id="qres" class="card"></div>'},
+
+ parents:function(){return back("home","Home")+'<h1>For parents and teachers</h1><div class="card"><h3>Safety for the home experiments</h3><ul><li><b>Oobleck:</b> safe to touch. Trash, not sink.</li><li><b>Static:</b> balloon demo is safe for everyone.</li><li><b>Slime:</b> adult help. Wash hands after. Not for eating.</li><li><b>Pulse:</b> safe for everyone. Press gently.</li><li><b>Elephant toothpaste:</b> adult help, goggles, household 3% peroxide only, outside or in a tray.</li></ul></div>'+
+  '<div class="card"><h3>About this site</h3><p>No sign-ups, no comments, no personal data collected, no ads. A science teacher reviews every page and every recipe before launch.</p></div>'+
+  '<div class="card"><h3>Neural fragments</h3><p>Small glass jar and a figurine of about 1 inch. Keep away from children under 3 (small parts).</p></div>'+
+  '<div class="card"><h3>Credits</h3><p>Music and sound credits will be listed here.</p></div>'}
+};
+
+LAB.forEach(function(x){PAGES["lab-"+x.id]=function(){return back("lab","The Lab")+'<div style="font-size:64px;line-height:1.1;margin-top:10px">'+x.e+'</div><h1>'+x.t+'</h1>'+
+  '<h2>What you saw</h2><p>'+x.saw+'</p><h2>Why it happens</h2><p>'+x.why+'</p>'+deeper(x.deep)+
+  '<h2>Try it at home</h2><div class="card">'+x.home+'</div><div class="safe"><b>Safety:</b> '+x.safe+'</div>'+s5(x.s5)}});
+
+function quizWire(){
+  var qz=document.getElementById("qz"); if(!qz) return;
+  function result(){
+    var qs=qz.querySelectorAll(".q"),right=0,done=0;
+    qs.forEach(function(q){if(q.dataset.done){done++; if(q.dataset.right==="1") right++}});
+    var r=document.getElementById("qres");
+    if(done<qs.length){r.innerHTML="Answered "+done+" of "+qs.length+".";return}
+    if(right===qs.length){localStorage.setItem("s5quizB","1");r.innerHTML='<h3>10 out of 10. Pulse confirmed. You are almost certainly human.</h3><a class="big" href="#files">Open the un-redacted report</a>'}
+    else r.innerHTML='<h3>'+right+' out of '+qs.length+'. Verification… close enough.</h3><p>Get all ten to unlock the report.</p><a class="big" href="#quiz" onclick="setTimeout(render,0)">Try again</a>';
+  }
+  qz.addEventListener("click",function(ev){
+    var b=ev.target.closest("button"); if(!b) return; var q=b.parentNode; if(q.dataset.done) return;
+    q.dataset.done="1"; var ok=b.dataset.j===q.dataset.a; q.dataset.right=ok?"1":"0";
+    b.className=ok?"ok":"no"; if(!ok) q.querySelector('button[data-j="'+q.dataset.a+'"]').className="ok"; result();
+  });
+  result();
+}
+
+function render(){
+  var id=location.hash.slice(1)||"home"; if(!PAGES[id]) id="home";
+  document.getElementById("app").innerHTML=PAGES[id]();
+  document.getElementById("nav").innerHTML=NAV.map(function(n){return '<a href="#'+n[0]+'" class="'+(id.indexOf(n[0])===0?"on":"")+'"><i>'+n[1]+'</i>'+n[2]+'</a>'}).join("");
+  window.scrollTo(0,0); quizWire();
+}
+window.addEventListener("hashchange",render); render();
+</script>
+</body>
+</html>
