@@ -73,11 +73,18 @@
   .eq{display:inline-flex;gap:3px;align-items:flex-end;height:18px}
   .eq i{width:4px;background:var(--green);animation:eq .9s infinite ease-in-out}
   .eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}
-  .mode{position:fixed;right:0;top:42%;z-index:20;display:flex;flex-direction:column;background:#0b0819;border:1px solid #3a3170;border-right:0;border-radius:14px 0 0 14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.5)}
-  .mode button{border:0;background:transparent;color:var(--mute);font:700 12px/1.1 inherit;padding:10px 8px;cursor:pointer;width:64px}
-  .mode button i{display:block;font-style:normal;font-size:22px;margin-bottom:3px}
-  .mode button.on{background:var(--green);color:#120E26}
-  .mode button.on.br{background:var(--red);color:#fff}
+  .trk{display:flex;justify-content:space-between;align-items:center;background:#0b0819;border:1px solid #3a3170;border-radius:12px;padding:8px 12px;margin:8px 0;font:700 13px/1.3 Menlo,monospace;color:var(--mute)}
+  .trk .st.alert{color:var(--red);animation:blink .5s steps(2) infinite}
+  .trk .st.found{color:var(--green)}
+  @keyframes blink{50%{opacity:.25}}
+  .map{position:relative}
+  .map .rm.hot rect{stroke:var(--red);stroke-width:.45}
+  #s5 .ring{animation:ring 1s ease-out infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes ring{from{transform:scale(.4);opacity:.9}to{transform:scale(2.6);opacity:0}}
+  .boom{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font:900 28px/1.1 inherit;color:#120E26;text-align:center}
+  .boom span{background:var(--green);padding:10px 16px;border-radius:14px;box-shadow:0 0 30px var(--green);animation:pop .9s ease-out forwards}
+  @keyframes pop{0%{transform:scale(.3);opacity:0}25%{transform:scale(1.1);opacity:1}80%{opacity:1}100%{transform:scale(1);opacity:0}}
+  .win{border:2px solid var(--green)}
   @keyframes eq{0%,100%{height:4px}50%{height:18px}}
 </style>
 </head>
@@ -230,37 +237,73 @@ var ROOMS=[
   link:["keepers","Become a Fragment Keeper"]}
 ];
 var player=new Audio();player.loop=true;player.preload="none";var playing=null;var mode="breach";
-function modeSwitch(){return '<div class="mode" role="group" aria-label="Sound mode"><button class="'+(mode==="calm"?"on":"")+'" onclick="setMode(\'calm\')"><i>😌</i>Calm</button><button class="br '+(mode==="breach"?"on":"")+'" onclick="setMode(\'breach\')"><i>🚨</i>Breach</button></div>'}
-function setMode(m){if(m===mode)return;mode=m;var t=player.currentTime;var s=document.querySelector(".mode");if(s)s.outerHTML=modeSwitch();if(playing){player.src="audio/"+playing+"-"+mode+".mp3";player.addEventListener("loadedmetadata",function f(){player.removeEventListener("loadedmetadata",f);try{player.currentTime=t%player.duration}catch(e){}});player.play()}}
 function roomPanel(r){
   var on=playing===r.id;
   return '<div class="card"><span class="tag">'+r.t+'</span><h3>'+r.n+'</h3>'+
    '<div class="snd"><button onclick="toggleSound(\''+r.id+'\')">'+(on?'❚❚ Stop sound':'▶ Play room sound')+'</button>'+(on?'<span class="eq"><i></i><i></i><i></i></span>':'')+'</div>'+
    '<p>'+r.d+'</p><a href="#'+r.link[0]+'">'+r.link[1]+' →</a></div>';
 }
+var GOAL=5,s5={on:false,room:null,timer:null,found:+(localStorage.getItem("s5found")||0)};
+var QUIPS=["Found it! It was trying on a new left arm.","Located! It says it was “just looking”.","Got it! It was asking the dots for more parameters.","Spotted! It was practising being a mannequin. Badly.","Caught it! It was looking for the heart. Again.","Found! It froze and pretended to be furniture.","There it is! It waved. Do not wave back."];
+function trk(st,cls){var e=document.getElementById("trk");if(!e)return;e.innerHTML='<span class="st '+(cls||"")+'">'+st+'</span><span>FOUND '+s5.found+'/'+GOAL+'</span>'}
+function blip(f,d){try{var a=blip.c||(blip.c=new (window.AudioContext||window.webkitAudioContext)()),o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.type="square";g.gain.setValueAtTime(.06,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d)}catch(e){}}
+function s5stop(){clearTimeout(s5.timer);s5.on=false;s5.room=null}
+function s5hide(missed){
+  var d=document.getElementById("s5");if(!d)return s5stop();
+  d.style.display="none";s5.on=false;
+  document.querySelectorAll(".map .rm.hot").forEach(function(g){g.classList.remove("hot")});
+  if(missed)trk("SIGNAL LOST");
+  s5.timer=setTimeout(s5show,1500+Math.random()*3500);
+}
+function s5show(){
+  var d=document.getElementById("s5");if(!d||location.hash!=="#map")return s5stop();
+  if(s5.found>=GOAL){trk("CONTAINED (FOR NOW)","found");return}
+  var rooms=ROOMS.filter(function(z){return z.id!=="00-queue"&&z.id!==s5.room}),r=rooms[Math.floor(Math.random()*rooms.length)];
+  s5.room=r.id;s5.on=true;
+  var px=r.x+1.5+Math.random()*(r.w-3),py=r.y+1.5+Math.random()*(r.h-3);
+  d.setAttribute("transform","translate("+px+","+py+")");d.style.display="";
+  var g=document.querySelector('.map .rm[data-id="'+r.id+'"]');if(g)g.classList.add("hot");
+  trk("⚠ MOVEMENT DETECTED","alert");blip(220,.12);
+  var vis=Math.max(1100,3200*Math.pow(.82,s5.found));
+  s5.timer=setTimeout(function(){s5hide(true)},vis);
+}
+function s5found(r){
+  clearTimeout(s5.timer);s5.found++;localStorage.setItem("s5found",s5.found);
+  blip(880,.08);setTimeout(function(){blip(1320,.15)},90);
+  var m=document.querySelector(".map"),b=document.createElement("div");b.className="boom";b.innerHTML="<span>YOU FOUND IT!</span>";m.appendChild(b);setTimeout(function(){b.remove()},950);
+  s5hide(false);
+  if(s5.found>=GOAL){clearTimeout(s5.timer);trk("CONTAINED (FOR NOW)","found");
+    return '<div class="card win"><span class="tag">Containment certified</span><h3>You found Specimen Five '+GOAL+' times!</h3><p>The Institute would like to offer you a job. Specimen Five would like to offer you a sandwich.</p><p><small>It has already escaped again.</small></p><a class="big" href="#map" onclick="s5.found=0;localStorage.setItem(\'s5found\',0);setTimeout(render,0)">Play again</a></div>'}
+  trk("FOUND IN "+r.n.toUpperCase(),"found");
+  return '<div class="card win"><span class="tag">Tracker</span><h3>'+QUIPS[Math.floor(Math.random()*QUIPS.length)]+'</h3><p>'+(GOAL-s5.found)+' more to contain it. It is getting faster.</p></div>';
+}
 function showRoom(id){
   var r=ROOMS.filter(function(z){return z.id===id})[0];
+  var hit=s5.on&&s5.room===id?s5found(r):"";
   document.querySelectorAll(".map .rm").forEach(function(g){g.classList.toggle("on",g.dataset.id===id)});
-  document.getElementById("room").innerHTML=roomPanel(r);
+  document.getElementById("room").innerHTML=hit+roomPanel(r);
   if(playing!==id) toggleSound(id);
 }
 function toggleSound(id){
   if(playing===id){player.pause();playing=null}
   else{player.src="audio/"+id+"-"+mode+".mp3";player.play();playing=id}
   var r=ROOMS.filter(function(z){return z.id===id})[0],p=document.getElementById("room");
-  if(p) p.innerHTML=roomPanel(r);
+  if(p){var w=p.querySelector(".win");p.innerHTML=(w?w.outerHTML:"")+roomPanel(r)}
 }
-window.addEventListener("hashchange",function(){if(location.hash!=="#map"&&playing){player.pause();playing=null}});
+window.addEventListener("hashchange",function(){if(location.hash!=="#map"){s5stop();if(playing){player.pause();playing=null}}});
 
 var PAGES={
  map:function(){return back("home","Home")+'<h1>Map of the lab</h1><p class="lead">Tap a room to read about it and hear what it sounded like. Turn your volume up. Or don\'t.</p>'+
+  '<p><b>Game:</b> Specimen Five is moving through the lab. When the tracker flashes red, tap the room it is in before the signal is lost.</p>'+
+  '<div class="trk" id="trk"></div>'+
   '<div class="map"><svg viewBox="-0.5 -0.5 57 42">'+
   ROOMS.map(function(r){var lbl=r.n.split(" · ");return '<g class="rm" data-id="'+r.id+'" onclick="showRoom(\''+r.id+'\')"><rect x="'+r.x+'" y="'+r.y+'" width="'+r.w+'" height="'+r.h+'" fill="'+r.c+'"/>'+
    '<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2-(lbl[1]?0.4:-0.6))+'" text-anchor="middle" font-size="'+(r.w<10?2.6:3.2)+'" font-weight="700">'+lbl[0]+'</text>'+
    (lbl[1]?'<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2+1.9)+'" text-anchor="middle" font-size="'+(r.w<=10?1.0:1.6)+'">'+lbl[1]+'</text>':'')+'</g>'}).join("")+
   '<rect x="28" y="16" width="20" height="8" fill="#1B1830"/><text x="38" y="20.6" text-anchor="middle" font-size="1.4" fill="#B9B2E0" style="fill:#B9B2E0">staff only</text>'+
+  '<g id="s5" style="display:none;pointer-events:none"><circle class="ring" r="1.3" fill="none" stroke="#FF3B4E" stroke-width=".35"/><circle r=".9" fill="#FF3B4E"/><text y="-1.6" text-anchor="middle" font-size="1.3" font-weight="700" style="fill:#FF3B4E">S5</text></g>'+
   '</svg></div><div id="room"><div class="card"><p>Route: queue → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8. Tap a room.</p></div></div>'+
-  '<p><small>All sounds were made for this exhibit. Use the switch on the right to hear each room in Calm or Breach mode.</small></p>'+modeSwitch()},
+  '<p><small>All sounds were made for this exhibit.</small></p>'},
 
 
  home:function(){return '<h1>You survived the Specimen Five exhibit!</h1><p class="lead">Specimen Five is fully contained.* Now find out how the science really works.</p><p><small>*Location of containment to be confirmed.</small></p>'+
@@ -334,6 +377,7 @@ function render(){
   document.getElementById("app").innerHTML=PAGES[id]();
   document.getElementById("nav").innerHTML=NAV.map(function(n){return '<a href="#'+n[0]+'" class="'+(id.indexOf(n[0])===0?"on":"")+'"><i>'+n[1]+'</i>'+n[2]+'</a>'}).join("");
   window.scrollTo(0,0); quizWire();
+  if(id==="map"){s5stop();trk(s5.found>=GOAL?"CONTAINED (FOR NOW)":"SCANNING…",s5.found>=GOAL?"found":"");s5.timer=setTimeout(s5show,1500)}
 }
 window.addEventListener("hashchange",render); render();
 </script>
