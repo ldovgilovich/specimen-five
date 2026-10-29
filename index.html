@@ -65,7 +65,6 @@
 </style>
 </head>
 <body>
-<div class="demo">DEMO — draft content. Science and recipes not yet reviewed by a science teacher.</div>
 <div class="wrap">
   <header>
     <svg class="logo" width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="21" fill="#1E1840" stroke="#7CFF6B" stroke-width="2"/><rect x="13" y="13" width="20" height="17" rx="5" fill="#B8ABFF"/><circle cx="19" cy="21" r="3" fill="#120E26"/><circle cx="28" cy="21" r="2" fill="#120E26"/><path d="M18 27h10" stroke="#120E26" stroke-width="2"/><path d="M23 13V8" stroke="#7CFF6B" stroke-width="2"/><circle cx="23" cy="7" r="2" fill="#FF3B4E"/><rect x="17" y="31" width="12" height="6" rx="2" fill="#FF8A3D"/></svg>
@@ -104,13 +103,13 @@ var LAB=[
   safe:"Do this with an adult. Do not eat it. Wash your hands after.",
   deep:"<p>The long chains are <b>polymers</b>. Joining them is called <b>cross-linking</b>. More cross-links make a stiffer material; fewer make it runnier. Rubber tyres and contact lenses are also cross-linked polymers.</p>",
   s5:"its skin was a cross-linked polymer. That is why it could stretch. And why it could squeeze. Nearly."},
- {id:"sleep",e:"🧊",t:"Sleep: dry ice",sub:"A solid that skips being a liquid",
-  saw:"The scientist dropped dry ice into warm water. Thick white fog poured out.",
-  why:"Dry ice is frozen carbon dioxide, about minus 109 °F. It does not melt. It goes straight from solid to gas. The fog is not smoke: it is tiny water droplets made by the cold gas.",
-  home:"<p><b>Not at home.</b> Instead: put one ice cube in warm water and one in cold water. Time how long each takes to melt.</p>",
-  safe:"Dry ice is extremely cold and can burn skin. The gas can build up in closed spaces. Only the scientist handles it, with insulated gloves or tongs.",
-  deep:"<p>Going straight from solid to gas is called <b>sublimation</b>. At normal air pressure, carbon dioxide has no liquid state at all. The fog forms because the cold gas cools the air until the water vapour in it <b>condenses</b> into droplets.</p>",
-  s5:"the Institute kept it cold to keep it asleep. On the night of the incident, someone turned the temperature up."},
+ {id:"heart",e:"❤️",t:"Heart: your pulse",sub:"The one part Specimen Five could never build",
+  saw:"The scientist showed you how to find your own pulse, listen with a stethoscope, and see what changes after ten jumping jacks.",
+  why:"Your heart is a muscle that squeezes about once a second, pushing blood around your body. Each squeeze sends a wave along your arteries: that wave is your pulse. Exercise makes your muscles need more oxygen, so your heart beats faster to deliver it.",
+  home:"<p><b>You need:</b> a clock or phone timer.</p><ol><li>Put two fingers on the inside of your wrist, below your thumb.</li><li>Count the beats for 15 seconds, then multiply by 4. That is your heart rate in beats per minute.</li><li>Do 20 jumping jacks and count again. How long until it comes back down?</li></ol>",
+  safe:"Gentle exercise only. If you feel dizzy, stop and sit down.",
+  deep:"<p>A resting heart rate for children is often around 70 to 110 <b>beats per minute</b>; for teens and adults, around 60 to 100. The heart has four chambers and its own electrical pacemaker, the <b>sinoatrial node</b>, which sets the rhythm. During exercise your nervous system and hormones like <b>adrenaline</b> speed it up, so more <b>oxygen</b> reaches your muscles. A fingertip pulse meter shines light through your finger and measures how much is absorbed as blood pulses through.</p>",
+  s5:"it built itself arms, legs, armor and a brain. It could never build a heart. That is why it came back for the one in the jar."},
  {id:"growth",e:"🌋",t:"Growth: elephant toothpaste",sub:"A helper that makes a reaction race",
   saw:"The scientist poured yeast into a bottle of hydrogen peroxide and soap. Foam shot out of the top.",
   why:"Hydrogen peroxide slowly breaks down into water and oxygen by itself. Yeast makes this happen very fast. The soap traps the oxygen in bubbles, and you get foam.",
@@ -124,7 +123,7 @@ var DEF=[
  ["🖐️","Touch (CAPTCHA gate)","Your fingertips are packed with touch receptors, among the densest in your body. Real CAPTCHAs test things computers find hard. Ours tests touch."],
  ["🟢","Glow under UV (dot room)","Fluorescent paint absorbs ultraviolet light, which your eyes cannot see, and gives it back as visible light. That is why the dots glow."],
  ["🔴","Lasers and light (perimeter grid)","A real laser beam is almost invisible from the side, unless dust or mist in the air scatters its light toward your eyes."],
- ["💨","Air pressure (squeeze tunnel)","The walls stay full because the blowers push air in faster than it leaks out."],
+ ["💨","Air pressure (squeeze tunnel)","Fans push air against the cloth walls. Moving air presses on the side it hits, so the cloth bulges in toward you and makes the tunnel feel tight."],
  ["🎵","The sound that rises forever (Shepard tone)","The Shepard tone is an auditory illusion: a pitch that seems to rise forever. It builds tension, and it never arrives."]
 ];
 
@@ -159,7 +158,7 @@ var QUIZ=[
  ["Oobleck goes hard when you…",["warm it up","hit it fast","leave it alone"],1],
  ["Why does your hair stand up on the Van de Graaff generator?",["Charges that are the same push apart","The dome is hot","The wind blows it"],0],
  ["What links the long chains in slime together?",["Water","Borax solution","Food coloring"],1],
- ["Dry ice is frozen…",["water","oxygen","carbon dioxide"],2],
+ ["Why does your heart beat faster after jumping jacks?",["Your muscles need more oxygen","Your heart gets cold","Your blood gets lighter"],0],
  ["In elephant toothpaste, the yeast is a…",["catalyst","polymer","laser"],0],
  ["Why do the dots glow in the dot room?",["They are tiny lamps","Fluorescent paint turns UV light into light you can see","They are hot"],1],
  ["How does an AI learn what a cat looks like?",["Someone writes down every rule","It finds patterns in many examples","It asks a cat"],1],
@@ -214,7 +213,7 @@ var PAGES={
   '<p>Together, the fragments could wake Specimen Five up again. Apart, they are harmless. So every visitor takes one home and keeps it far away from all the others.</p>'+
   '<div class="card"><span class="tag">Keeper instructions</span><ol><li>Keep your fragment away from other fragments.</li><li>Feed it light, then watch it in the dark.</li><li>Never let it near a computer.</li><li>If it glows when you didn\'t feed it, come back here.</li></ol></div>'+
   '<h2>Which emotion module did you get?</h2><p>Specimen Five knew it had no heart. So it tried to learn feelings one at a time. Each ghost face is one page of its learning log.</p><div class="ghosts">'+
-  GHOSTS.map(function(g){return '<div class="ghost">'+ghostSvg+'<div><b>'+g[0]+'</b><p>“'+g[1]+'”</p></div></div>'}).join("")+'</div><p><small>Demo shows 5 of the 10 ghost faces.</small></p>'+
+  GHOSTS.map(function(g){return '<div class="ghost">'+ghostSvg+'<div><b>'+g[0]+'</b><p>“'+g[1]+'”</p></div></div>'}).join("")+'</div><p><small>More modules are still being recovered.</small></p>'+
   '<h2>Why does it glow?</h2><p>Glow-in-the-dark materials soak up energy from light. Then they let it out slowly as a soft glow. That is why the glow fades, and why your fragment needs “recharging”.</p>'+
   deeper('<p>This is called <b>phosphorescence</b>. Light lifts electrons in the material to a higher energy level. They fall back slowly, releasing the energy as visible light over minutes or hours. Fluorescent paint (the dot room) does the same thing, but gives the light back almost instantly, so it only glows while the UV light is on.</p>')},
 
@@ -222,10 +221,10 @@ var PAGES={
   QUIZ.map(function(q,i){return '<div class="q" data-a="'+q[2]+'"><b>'+(i+1)+'. '+q[0]+'</b>'+q[1].map(function(o,j){return '<button data-j="'+j+'">'+o+'</button>'}).join("")+'</div>'}).join("")+
   '</div><div id="qres" class="card"></div>'},
 
- parents:function(){return back("home","Home")+'<h1>For parents and teachers</h1><div class="card"><h3>Safety for the home experiments</h3><ul><li><b>Oobleck:</b> safe to touch. Trash, not sink.</li><li><b>Static:</b> balloon demo is safe for everyone.</li><li><b>Slime:</b> adult help. Wash hands after. Not for eating.</li><li><b>Dry ice:</b> not for home. Extreme cold and gas build-up.</li><li><b>Elephant toothpaste:</b> adult help, goggles, household 3% peroxide only, outside or in a tray.</li></ul></div>'+
-  '<div class="card"><h3>About this site</h3><p>No sign-ups, no comments, no personal data collected, no ads. A science teacher reviews every page and every recipe before launch.</p></div>'+
+ parents:function(){return back("home","Home")+'<h1>For parents and teachers</h1><div class="card"><h3>Safety for the home experiments</h3><ul><li><b>Oobleck:</b> safe to touch. Trash, not sink.</li><li><b>Static:</b> balloon demo is safe for everyone.</li><li><b>Slime:</b> adult help. Wash hands after. Not for eating.</li><li><b>Pulse:</b> gentle exercise only; stop if dizzy.</li><li><b>Elephant toothpaste:</b> adult help, goggles, household 3% peroxide only, outside or in a tray.</li></ul></div>'+
+  '<div class="card"><h3>About this site</h3><p>No sign-ups, no comments, no personal data collected, no ads. Do the home experiments with an adult and read the safety notes first.</p></div>'+
   '<div class="card"><h3>Neural fragments</h3><p>Small glass jar and a figurine of about 1 inch. Keep away from children under 3 (small parts).</p></div>'+
-  '<div class="card"><h3>Credits</h3><p>Music and sound credits will be listed here.</p></div>'}
+  '<div class="card"><h3>Credits</h3><p>All music and sound effects in the exhibit were created for it.</p></div>'}
 };
 
 LAB.forEach(function(x){PAGES["lab-"+x.id]=function(){return back("lab","The Lab")+'<div style="font-size:64px;line-height:1.1;margin-top:10px">'+x.e+'</div><h1>'+x.t+'</h1>'+
