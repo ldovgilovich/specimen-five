@@ -247,10 +247,31 @@ var GOAL=5,s5={on:false,room:null,timer:null,found:+(localStorage.getItem("s5fou
 var QUIPS=["Found it! It was trying on a new left arm.","Located! It says it was “just looking”.","Got it! It was asking the dots for more parameters.","Spotted! It was practising being a mannequin. Badly.","Caught it! It was looking for the heart. Again.","Found! It froze and pretended to be furniture.","There it is! It waved. Do not wave back."];
 function trk(st,cls){var e=document.getElementById("trk");if(!e)return;e.innerHTML='<span class="st '+(cls||"")+'">'+st+'</span><span>FOUND '+s5.found+'/'+GOAL+'</span>'}
 function blip(f,d){try{var a=blip.c||(blip.c=new (window.AudioContext||window.webkitAudioContext)()),o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.type="square";g.gain.setValueAtTime(.06,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d)}catch(e){}}
-function s5stop(){clearTimeout(s5.timer);s5.on=false;s5.room=null}
+function s5stop(){clearTimeout(s5.timer);cancelAnimationFrame(s5.raf);s5.on=false;s5.room=null}
+// Wander inside the room: glide between random waypoints, with short servo-like pauses.
+function s5walk(d,r){
+  cancelAnimationFrame(s5.raf);
+  var m=1.4,pt=function(){return [r.x+m+Math.random()*(r.w-2*m),r.y+m+Math.random()*(r.h-2*m)]};
+  var a=pt(),b=pt(),t0=performance.now(),dur=600,trail=[];
+  var tr=document.getElementById("s5trail");
+  function seg(){a=b;b=pt();var dx=b[0]-a[0],dy=b[1]-a[1];dur=Math.max(350,Math.hypot(dx,dy)*90)}
+  seg();
+  (function step(now){
+    if(!s5.on)return;
+    var k=(now-t0)/dur;
+    if(k>=1.25){t0=now;seg();k=0}           // 0.25 of the segment time = a pause at the waypoint
+    var e=Math.min(1,k);e=e<.5?2*e*e:1-Math.pow(-2*e+2,2)/2;
+    var x=a[0]+(b[0]-a[0])*e+(Math.random()-.5)*.08,y=a[1]+(b[1]-a[1])*e+(Math.random()-.5)*.08;
+    d.setAttribute("transform","translate("+x.toFixed(2)+","+y.toFixed(2)+")");
+    trail.push(x.toFixed(2)+","+y.toFixed(2));if(trail.length>28)trail.shift();
+    if(tr)tr.setAttribute("points",trail.join(" "));
+    s5.raf=requestAnimationFrame(step);
+  })(t0);
+}
 function s5hide(missed){
   var d=document.getElementById("s5");if(!d)return s5stop();
-  d.style.display="none";s5.on=false;
+  d.style.display="none";s5.on=false;cancelAnimationFrame(s5.raf);
+  var tr=document.getElementById("s5trail");if(tr)tr.setAttribute("points","");
   document.querySelectorAll(".map .rm.hot").forEach(function(g){g.classList.remove("hot")});
   if(missed)trk("SIGNAL LOST");
   s5.timer=setTimeout(s5show,1500+Math.random()*3500);
@@ -260,8 +281,7 @@ function s5show(){
   if(s5.found>=GOAL){trk("CONTAINED (FOR NOW)","found");return}
   var rooms=ROOMS.filter(function(z){return z.id!=="00-queue"&&z.id!==s5.room}),r=rooms[Math.floor(Math.random()*rooms.length)];
   s5.room=r.id;s5.on=true;
-  var px=r.x+1.5+Math.random()*(r.w-3),py=r.y+1.5+Math.random()*(r.h-3);
-  d.setAttribute("transform","translate("+px+","+py+")");d.style.display="";
+  s5walk(d,r);d.style.display="";
   var g=document.querySelector('.map .rm[data-id="'+r.id+'"]');if(g)g.classList.add("hot");
   trk("⚠ MOVEMENT DETECTED","alert");blip(220,.12);
   var vis=Math.max(1100,3200*Math.pow(.82,s5.found));
@@ -301,6 +321,7 @@ var PAGES={
    '<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2-(lbl[1]?0.4:-0.6))+'" text-anchor="middle" font-size="'+(r.w<10?2.6:3.2)+'" font-weight="700">'+lbl[0]+'</text>'+
    (lbl[1]?'<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2+1.9)+'" text-anchor="middle" font-size="'+(r.w<=10?1.0:1.6)+'">'+lbl[1]+'</text>':'')+'</g>'}).join("")+
   '<rect x="28" y="16" width="20" height="8" fill="#1B1830"/><text x="38" y="20.6" text-anchor="middle" font-size="1.4" fill="#B9B2E0" style="fill:#B9B2E0">staff only</text>'+
+  '<polyline id="s5trail" points="" fill="none" stroke="#FF3B4E" stroke-width=".3" stroke-opacity=".45" stroke-dasharray=".5 .5" style="pointer-events:none"/>'+
   '<g id="s5" style="display:none;pointer-events:none"><circle class="ring" r="1.3" fill="none" stroke="#FF3B4E" stroke-width=".35"/><circle r=".9" fill="#FF3B4E"/><text y="-1.6" text-anchor="middle" font-size="1.3" font-weight="700" style="fill:#FF3B4E">S5</text></g>'+
   '</svg></div><div id="room"><div class="card"><p>Route: queue → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8. Tap a room.</p></div></div>'+
   '<p><small>All sounds were made for this exhibit.</small></p>'},
