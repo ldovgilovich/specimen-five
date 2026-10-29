@@ -62,6 +62,18 @@
   .ghost svg{flex:none}
   .ghost p{margin:2px 0;font-size:16px}
   small{color:var(--mute)}
+  .map svg{width:100%;height:auto;display:block;background:#0b0819;border-radius:16px}
+  .map .rm{cursor:pointer}
+  .map .rm rect{stroke:#3a3170;stroke-width:.25;transition:fill .2s}
+  .map .rm:hover rect{stroke:var(--green)}
+  .map .rm.on rect{stroke:var(--green);stroke-width:.5}
+  .map text{pointer-events:none;fill:#F3F0FF;font-family:inherit}
+  .snd{display:flex;align-items:center;gap:10px;margin:10px 0}
+  .snd button{background:var(--green);color:#120E26;border:0;border-radius:999px;padding:10px 18px;font-weight:700;font-size:16px;cursor:pointer}
+  .eq{display:inline-flex;gap:3px;align-items:flex-end;height:18px}
+  .eq i{width:4px;background:var(--green);animation:eq .9s infinite ease-in-out}
+  .eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}
+  @keyframes eq{0%,100%{height:4px}50%{height:18px}}
 </style>
 </head>
 <body>
@@ -75,7 +87,7 @@
 <nav id="nav"></nav>
 
 <script>
-var NAV=[["home","🏠","Home"],["files","🗂️","Files"],["lab","🧪","The Lab"],["ai","🤖","AI Corner"],["quiz","❓","Quiz"]];
+var NAV=[["home","🏠","Home"],["map","🗺️","Map"],["files","🗂️","Files"],["lab","🧪","The Lab"],["ai","🤖","AI Corner"],["quiz","❓","Quiz"]];
 
 function deeper(html){return '<details><summary>Go deeper (for teens)</summary>'+html+'</details>'}
 function s5(t){return '<div class="s5"><b>The Specimen Five connection:</b> '+t+'</div>'}
@@ -183,9 +195,70 @@ function report(){
   (un?'':'<p><small>Some lines are blacked out. <a href="#quiz">Finish the quiz</a> to un-redact them.</small></p>')+'</div>';
 }
 
+var ROOMS=[
+ {id:"00-queue",n:"Queue",t:"The press wall",x:0,y:36,w:56,h:5,c:"#2a2350",
+  d:"While you waited, the Institute Gazette told the story so far: the unveiling, the failed touch test, the blackout. Through the wall: the hum of the lab. During a breach, a muffled alarm and knocking.",
+  link:["files","Read all six articles"]},
+ {id:"01-steam-hall",n:"1 · STEAM Hall",t:"The Research",x:0,y:16,w:28,h:20,c:"#0F3B36",
+  d:"Five scientists, five ingredients of Specimen Five: armor, nerves, skin, a heart and growth. Listen for beeping equipment and, when the alarm goes off, a pulse that will not stop.",
+  link:["lab","Try the experiments at home"]},
+ {id:"02-anatomy-theater",n:"2 · Anatomy Theater",t:"The incident site",x:0,y:0,w:16,h:16,c:"#4A2A1C",
+  d:"Operating Theater B, where Specimen Five woke up at 21:14. Professor Voss gives his first public statement next to the only heart the Institute ever made, still beating in its jar. The heart monitor speeds up when something is near.",
+  link:["files","Read the incident report"]},
+ {id:"03-spare-parts",n:"3 · Spare Parts",t:"Storage",x:16,y:0,w:12,h:16,c:"#2B2260",
+  d:"Shelves of arms, legs and heads. Specimens One, Two and Four stand on their stands. Specimen Three's note says “See Room 5”. Specimen Five's stand is empty. Something creaks. Something whirs, like a servo motor.",
+  link:["ai","Why did it keep asking for upgrades?"]},
+ {id:"04-captcha-gate",n:"4 · CAPTCHA Gate",t:"Human Verification Gate",x:28,y:0,w:10,h:16,c:"#33276E",
+  d:"Reach into the boxes and name what you feel. Specimen Five has no sense of touch: it failed this test 212 times. Behind the wall, during a breach, something breathes slowly.",
+  link:["defense","The science of touch"]},
+ {id:"05-dot-room",n:"5 · Dot Room",t:"Visual Confusion Field",x:38,y:0,w:10,h:16,c:"#2B2260",
+  d:"Glowing dots under UV light confuse pattern-based vision. Specimen Five stood still here for 13 minutes. Specimen Three learned to hide in the dots. The sound is a Shepard tone: a pitch that seems to rise forever.",
+  link:["defense","Why the dots glow, and the sound that rises forever"]},
+ {id:"06-laser-grid",n:"6 · Laser Grid",t:"Perimeter Grid",x:48,y:0,w:8,h:24,c:"#33276E",
+  d:"Harmless to humans. Fatal to circuits. Last known contact point: 22:05. Electrical hum, sparks, and a security camera watching you from the far end.",
+  link:["defense","Lasers and light"]},
+ {id:"07-pressure-seal",n:"7 · Pressure Seal",t:"The finale",x:36,y:24,w:20,h:12,c:"#3C2F86",
+  d:"The squeeze tunnel Specimen Five was too big to get through, and the scratch marks on the inside. The screen shows the grid you just left, live. A heartbeat getting faster. Breathing that is not yours.",
+  link:["defense","How the fans squeeze the tunnel"]},
+ {id:"08-decon",n:"8 · Decon",t:"Decontamination",x:28,y:24,w:8,h:12,c:"#1F4A52",
+  d:"Bright light, an airlock hiss, and your neural fragment: a tiny piece of Specimen Five's brain to keep safe at home.",
+  link:["keepers","Become a Fragment Keeper"]}
+];
+var player=new Audio();player.loop=true;player.preload="none";var playing=null;
+function roomPanel(r){
+  var on=playing===r.id;
+  return '<div class="card"><span class="tag">'+r.t+'</span><h3>'+r.n+'</h3>'+
+   '<div class="snd"><button onclick="toggleSound(\''+r.id+'\')">'+(on?'❚❚ Stop sound':'▶ Play room sound')+'</button>'+(on?'<span class="eq"><i></i><i></i><i></i></span>':'')+'</div>'+
+   '<p>'+r.d+'</p><a href="#'+r.link[0]+'">'+r.link[1]+' →</a></div>';
+}
+function showRoom(id){
+  var r=ROOMS.filter(function(z){return z.id===id})[0];
+  document.querySelectorAll(".map .rm").forEach(function(g){g.classList.toggle("on",g.dataset.id===id)});
+  document.getElementById("room").innerHTML=roomPanel(r);
+  if(playing!==id) toggleSound(id);
+}
+function toggleSound(id){
+  if(playing===id){player.pause();playing=null}
+  else{player.src="audio/"+id+".mp3";player.play();playing=id}
+  var r=ROOMS.filter(function(z){return z.id===id})[0],p=document.getElementById("room");
+  if(p) p.innerHTML=roomPanel(r);
+}
+window.addEventListener("hashchange",function(){if(location.hash!=="#map"&&playing){player.pause();playing=null}});
+
 var PAGES={
+ map:function(){return back("home","Home")+'<h1>Map of the lab</h1><p class="lead">Tap a room to read about it and hear what it sounded like. Turn your volume up. Or don\'t.</p>'+
+  '<div class="map"><svg viewBox="-0.5 -0.5 57 42">'+
+  ROOMS.map(function(r){var lbl=r.n.split(" · ");return '<g class="rm" data-id="'+r.id+'" onclick="showRoom(\''+r.id+'\')"><rect x="'+r.x+'" y="'+r.y+'" width="'+r.w+'" height="'+r.h+'" fill="'+r.c+'"/>'+
+   '<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2-(lbl[1]?0.4:-0.6))+'" text-anchor="middle" font-size="'+(r.w<10?2.6:3.2)+'" font-weight="700">'+lbl[0]+'</text>'+
+   (lbl[1]?'<text x="'+(r.x+r.w/2)+'" y="'+(r.y+r.h/2+1.9)+'" text-anchor="middle" font-size="'+(r.w<=10?1.0:1.6)+'">'+lbl[1]+'</text>':'')+'</g>'}).join("")+
+  '<rect x="28" y="16" width="20" height="8" fill="#1B1830"/><text x="38" y="20.6" text-anchor="middle" font-size="1.4" fill="#B9B2E0" style="fill:#B9B2E0">staff only</text>'+
+  '</svg></div><div id="room"><div class="card"><p>Route: queue → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8. Tap a room.</p></div></div>'+
+  '<p><small>All sounds were made for this exhibit.</small></p>'},
+
+
  home:function(){return '<h1>You survived the Specimen Five exhibit!</h1><p class="lead">Specimen Five is fully contained.* Now find out how the science really works.</p><p><small>*Location of containment to be confirmed.</small></p>'+
   '<div class="grid">'+
+  '<a class="tile" href="#map"><div class="e">🗺️</div><b>Map of the lab</b><span>Tap a room. Hear it again</span></a>'+
   '<a class="tile" href="#files"><div class="e">🗂️</div><b>The Specimen Five Files</b><span>The full story and the newspapers</span></a>'+
   '<a class="tile" href="#lab"><div class="e">🧪</div><b>The Lab</b><span>5 experiments. Try them at home</span></a>'+
   '<a class="tile" href="#defense"><div class="e">🚨</div><b>Defense System Science</b><span>Touch, glow, lasers, air, sound</span></a>'+
